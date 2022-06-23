@@ -1,2 +1,2 @@
 # endradio
-Tor Based Internet Radio Streaming
+Tor Internet Radio Streaming
