@@ -164,6 +164,76 @@ HEAD4="Connection: keep-alive"
 HEAD5="Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7"
 uamode="off"
 headmode="off"
+
+for arg in $@
+do 
+ if [ "$arg" == "--help" ]
+ then
+   echo "ENDTUNES: listen to online radio streams behind tor using mpv"
+   echo "Type in the terminal $ endtunes "
+   echo "Now read the list and pick a number,input it and press enter."
+   echo ""
+   echo "USAGE:"
+   echo "$ endtunes --help         # usage messages"
+   echo "$ endtunes --version      # print version information"
+   echo "$ endtunes --list-matrix  # channel list in matrix format"
+   echo "$ endtunes --list-all     # channel list in column format"
+   echo "$ endtunes --ua-tor       # use tor-browser user-agent"
+   echo "$ endtunes --ua-rand      # use random user-agent from user_agents.txt "
+   echo "$ endtunes --ua-ranstr    # use a random string as the user agent"
+   echo "$ endtunes  55            # use channel number in command line"  
+   echo "$ endtunes  "
+   shift
+   exit 0
+   elif [ "$arg" == "--version" ]
+   then
+   echo "ENDTUNES: version: "$version", branch: "$branch" , revision date: "$rev_date" " 
+   echo "Copyright: The Endware Development Team, 2016"
+   shift
+   exit 0
+   elif [ "$arg" == "--list-matrix" ]
+   then 
+   channel_matrix
+   exit 0
+   elif [ "$arg" == "--list-all" ]
+   then
+   more "$chan_columns"
+   exit 0   
+   elif [ "$arg" == "--ua-rand" ]
+   then
+   uastate="rand"
+   uamode="on"
+   shift
+   elif [ "$arg" == "--ua-ranstr" ]
+   then
+   uastate="ranstr"
+   uamode="on"
+   shift
+   elif [ "$arg" == "--ua-tor" ]
+   then
+   uastate="tor"
+   uamode="on"
+   shift
+   elif [ "$arg" == "--ua-row1" ]
+   then
+   uastate="row1"
+   uamode="on"
+   shift
+   elif [ "$arg" == "--no-agent" ]
+   then
+   uamode="off"
+   shift 
+   elif [ "$arg" == "--no-header" ]
+   then
+   headmode="off"
+   shift    
+ fi
+done
+
+############################################### FUNCTIONS ###########################################################
+
+
+################################################### MENU FUNCTIONS ###################################################################################
 ### Define function for displaying channels  CHANGE MENU HERE
 channel_matrix_0()
 {
@@ -309,74 +379,7 @@ channel_matrix_2()
    echo "==========================================================================================================================================="
 }
 
-
-for arg in $@
-do 
- if [ "$arg" == "--help" ]
- then
-   echo "ENDTUNES: listen to online radio streams behind tor using mpv"
-   echo "Type in the terminal $ endtunes "
-   echo "Now read the list and pick a number,input it and press enter."
-   echo ""
-   echo "USAGE:"
-   echo "$ endtunes --help         # usage messages"
-   echo "$ endtunes --version      # print version information"
-   echo "$ endtunes --list-matrix  # channel list in matrix format"
-   echo "$ endtunes --list-all     # channel list in column format"
-   echo "$ endtunes --ua-tor       # use tor-browser user-agent"
-   echo "$ endtunes --ua-rand      # use random user-agent from user_agents.txt "
-   echo "$ endtunes --ua-ranstr    # use a random string as the user agent"
-   echo "$ endtunes  55            # use channel number in command line"  
-   echo "$ endtunes  "
-   shift
-   exit 0
-   elif [ "$arg" == "--version" ]
-   then
-   echo "ENDTUNES: version: "$version", branch: "$branch" , revision date: "$rev_date" " 
-   echo "Copyright: The Endware Development Team, 2016"
-   shift
-   exit 0
-   elif [ "$arg" == "--list-matrix" ]
-   then 
-   channel_matrix
-   exit 0
-   elif [ "$arg" == "--list-all" ]
-   then
-   more "$chan_columns"
-   exit 0   
-   elif [ "$arg" == "--ua-rand" ]
-   then
-   uastate="rand"
-   uamode="on"
-   shift
-   elif [ "$arg" == "--ua-ranstr" ]
-   then
-   uastate="ranstr"
-   uamode="on"
-   shift
-   elif [ "$arg" == "--ua-tor" ]
-   then
-   uastate="tor"
-   uamode="on"
-   shift
-   elif [ "$arg" == "--ua-row1" ]
-   then
-   uastate="row1"
-   uamode="on"
-   shift
-   elif [ "$arg" == "--no-agent" ]
-   then
-   uamode="off"
-   shift 
-   elif [ "$arg" == "--no-header" ]
-   then
-   headmode="off"
-   shift    
- fi
-done
-
-########################### FUNCTIONS ###########################################################
-
+###################################### CHANNEL FUNCTION ###################################################################
 ## Channel Selection function  (ADD CHANNELS HERE)
 channel_select()
 {
